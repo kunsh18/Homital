@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Created | Homital</title>
+  <meta name="description" content="Your Homital account has been created successfully." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --clr-bg: #0a0f1e;
+      --clr-primary: #6366f1;
+      --clr-accent: #06b6d4;
+      --clr-text: #f1f5f9;
+      --clr-muted: #94a3b8;
+      --clr-success: #10b981;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.3) 0%, transparent 60%);
+    }
+    .card {
+      text-align: center;
+      max-width: 480px;
+      padding: 3rem 2.5rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      animation: pop .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes pop { from { opacity:0; transform: scale(.85); } to { opacity:1; transform: scale(1); } }
+
+    .success-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--clr-success), #34d399);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      box-shadow: 0 0 40px rgba(16,185,129,0.4);
+    }
+    h1 {
+      font-size: 1.8rem; font-weight: 800;
+      background: linear-gradient(135deg, #fff 40%, var(--clr-accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .6rem;
+    }
+    p { color: var(--clr-muted); line-height: 1.6; margin-bottom: 1.8rem; }
+    .btn {
+      display: inline-block;
+      padding: .8rem 2rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
+      color: #fff; font-weight: 700; text-decoration: none;
+      font-family: inherit; font-size: .95rem;
+      transition: opacity .2s, transform .15s;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+    }
+    .btn:hover { opacity: .9; transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="success-icon">✓</div>
+    <h1>You're all set!</h1>
+    <p>Your Homital account has been created successfully.<br/>
+       Welcome to your personalised health journey.</p>
+    <a href="{% url 'user:register' %}" class="btn">Back to Register</a>
+  </div>
+</body>
+</html>

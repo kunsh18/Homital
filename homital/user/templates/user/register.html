@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account | Homital</title>
+  <meta name="description" content="Create your Homital account to access personalised health services." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ---- Reset & Base ---- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --clr-bg:        #0a0f1e;
+      --clr-surface:   #111827;
+      --clr-card:      rgba(255,255,255,0.04);
+      --clr-border:    rgba(255,255,255,0.08);
+      --clr-primary:   #6366f1;
+      --clr-primary-h: #818cf8;
+      --clr-accent:    #06b6d4;
+      --clr-success:   #10b981;
+      --clr-error:     #ef4444;
+      --clr-text:      #f1f5f9;
+      --clr-muted:     #94a3b8;
+      --radius:        14px;
+      --shadow:        0 25px 50px rgba(0,0,0,0.5);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% -10%, rgba(99,102,241,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 110%, rgba(6,182,212,0.15) 0%, transparent 55%);
+    }
+
+    /* ---- Card ---- */
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: calc(var(--radius) * 1.5);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+      animation: fadeUp .5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- Header ---- */
+    .card-header {
+      background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(6,182,212,0.2));
+      border-bottom: 1px solid var(--clr-border);
+      padding: 2.4rem 2.4rem 2rem;
+      text-align: center;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50px;
+      padding: .4rem 1rem;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: 1rem;
+    }
+
+    .logo-badge svg { width: 16px; height: 16px; }
+
+    .card-header h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 40%, var(--clr-primary-h));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .4rem;
+    }
+
+    .card-header p {
+      color: var(--clr-muted);
+      font-size: .92rem;
+    }
+
+    /* ---- Body ---- */
+    .card-body { padding: 2.2rem 2.4rem; }
+
+    /* ---- Messages ---- */
+    .messages { list-style: none; margin-bottom: 1.4rem; display: flex; flex-direction: column; gap: .5rem; }
+    .msg {
+      padding: .8rem 1rem;
+      border-radius: var(--radius);
+      font-size: .88rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .msg-success { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #34d399; }
+    .msg-error   { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.3);  color: #f87171; }
+
+    /* ---- Form grid ---- */
+    form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* ---- Field ---- */
+    .field { display: flex; flex-direction: column; gap: .4rem; }
+
+    label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--clr-muted);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    label .required { color: var(--clr-primary-h); margin-left: 2px; }
+
+    .input-wrap { position: relative; }
+
+    .input-wrap .icon {
+      position: absolute;
+      left: .9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--clr-muted);
+      pointer-events: none;
+      display: flex;
+    }
+
+    input:not([type="checkbox"]),
+    select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      color: var(--clr-text);
+      font-family: inherit;
+      font-size: .95rem;
+      padding: .75rem .9rem .75rem 2.7rem;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input:not([type="checkbox"]):focus,
+    select:focus {
+      border-color: var(--clr-primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+      background: rgba(255,255,255,0.07);
+    }
+
+    input:not([type="checkbox"]).error,
+    select.error {
+      border-color: var(--clr-error);
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+    }
+
+    select option { background: #1e2a3b; color: var(--clr-text); }
+
+    /* password toggle */
+    .toggle-pw {
+      position: absolute;
+      right: .9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--clr-muted);
+      display: flex;
+      padding: 0;
+      transition: color .2s;
+    }
+    .toggle-pw:hover { color: var(--clr-text); }
+
+    /* ---- Errors ---- */
+    .field-errors { list-style: none; display: flex; flex-direction: column; gap: .2rem; }
+    .field-errors li {
+      font-size: .78rem;
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .field-errors li::before { content: "✕"; font-size: .7rem; }
+
+    /* ---- Password strength ---- */
+    #pw-strength-bar {
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.06);
+      margin-top: .4rem;
+      overflow: hidden;
+    }
+    #pw-strength-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      transition: width .3s, background .3s;
+    }
+    #pw-strength-label {
+      font-size: .75rem;
+      color: var(--clr-muted);
+      margin-top: .25rem;
+    }
+
+    /* ---- Terms checkbox ---- */
+    .terms-row {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: var(--clr-primary);
+      cursor: pointer;
+    }
+
+    .terms-label {
+      font-size: .88rem;
+      color: var(--clr-muted);
+      text-transform: none;
+      letter-spacing: 0;
+      line-height: 1.5;
+    }
+
+    .terms-label a {
+      color: var(--clr-primary-h);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color .2s;
+    }
+    .terms-label a:hover { color: var(--clr-accent); text-decoration: underline; }
+
+    /* ---- Submit ---- */
+    .btn-submit {
+      width: 100%;
+      padding: .9rem;
+      border: none;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(99,102,241,0.4);
+      margin-top: .4rem;
+    }
+    .btn-submit:hover  { opacity: .92; transform: translateY(-1px); box-shadow: 0 8px 30px rgba(99,102,241,0.5); }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* ---- Footer note ---- */
+    .card-footer {
+      text-align: center;
+      padding: 1.2rem 2.4rem 2rem;
+      font-size: .88rem;
+      color: var(--clr-muted);
+      border-top: 1px solid var(--clr-border);
+    }
+    .card-footer a { color: var(--clr-primary-h); text-decoration: none; font-weight: 600; }
+    .card-footer a:hover { text-decoration: underline; }
+
+    /* ---- Section divider ---- */
+    .section-title {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--clr-primary-h);
+      margin-top: .4rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--clr-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- Header -->
+    <div class="card-header">
+      <div class="logo-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Homital
+      </div>
+      <h1>Create Your Account</h1>
+      <p>Join thousands of users managing their health journey with Homital.</p>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body">
+
+      <!-- Django messages -->
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li class="msg {% if message.tags == 'success' %}msg-success{% else %}msg-error{% endif %}">
+          {% if message.tags == 'success' %}✔{% else %}⚠{% endif %}
+          {{ message }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form method="post" novalidate id="registration-form">
+        {% csrf_token %}
+
+        <!-- Section: Personal Info -->
+        <p class="section-title">👤 Personal Information</p>
+
+        <!-- Full Name -->
+        <div class="field">
+          <label for="id_full_name">Full Name <span class="required">*</span></label>
+          <div class="input-wrap">
+            <span class="icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="id_full_name"
+              name="full_name"
+              placeholder="Enter your full name"
+              value="{{ form.full_name.value|default:'' }}"
+              {% if form.full_name.errors %}class="error"{% endif %}
+              autocomplete="name"
+              required
+            />
+          </div>
+          {% if form.full_name.errors %}
+          <ul class="field-errors">{% for e in form.full_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+
+        <!-- Email + Mobile -->
+        <div class="form-row">
+          <div class="field">
+            <label for="id_email">Email Address <span class="required">*</span></label>
+            <div class="input-wrap">
+              <span class="icon">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </span>
+              <input
+                type="email"
+                id="id_email"
+                name="email"
+                placeholder="you@example.com"
+                value="{{ form.email.value|default:'' }}"
+                {% if form.email.errors %}class="error"{% endif %}
+                autocomplete="email"
+                required
+              />
+            </div>
+            {% if form.email.errors %}
+            <ul class="field-errors">{% for e in form.email.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="id_mobile_number">Mobile Number <span class="required">*</span></label>
+            <div class="input-wrap">
+              <span class="icon">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                  <line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+              </span>
+              <input
+                type="tel"
+                id="id_mobile_number"
+                name="mobile_number"
+                placeholder="+91 9876543210"
+                value="{{ form.mobile_number.value|default:'' }}"
+                {% if form.mobile_number.errors %}class="error"{% endif %}
+                autocomplete="tel"
+                required
+              />
+            </div>
+            {% if form.mobile_number.errors %}
+            <ul class="field-errors">{% for e in form.mobile_number.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Section: Security -->
+        <p class="section-title">🔐 Security</p>
+
+        <!-- Password + Confirm -->
+        <div class="form-row">
+          <div class="field">
+            <label for="id_password">Password <span class="required">*</span></label>
+            <div class="input-wrap">
+              <span class="icon">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <input
+                type="password"
+                id="id_password"
+                name="password"
+                placeholder="Min. 8 characters"
+                {% if form.password.errors %}class="error"{% endif %}
+                autocomplete="new-password"
+                required
+              />
+              <button type="button" class="toggle-pw" data-target="id_password" aria-label="Toggle password visibility">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div id="pw-strength-bar"><div id="pw-strength-fill"></div></div>
+            <p id="pw-strength-label"></p>
+            {% if form.password.errors %}
+            <ul class="field-errors">{% for e in form.password.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="id_confirm_password">Confirm Password <span class="required">*</span></label>
+            <div class="input-wrap">
+              <span class="icon">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <input
+                type="password"
+                id="id_confirm_password"
+                name="confirm_password"
+                placeholder="Re-enter password"
+                {% if form.confirm_password.errors %}class="error"{% endif %}
+                autocomplete="new-password"
+                required
+              />
+              <button type="button" class="toggle-pw" data-target="id_confirm_password" aria-label="Toggle confirm password visibility">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            {% if form.confirm_password.errors %}
+            <ul class="field-errors">{% for e in form.confirm_password.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Section: About You -->
+        <p class="section-title">📋 About You</p>
+
+        <!-- DOB + Gender -->
+        <div class="form-row">
+          <div class="field">
+            <label for="id_date_of_birth">Date of Birth <span class="required">*</span></label>
+            <div class="input-wrap">
+              <span class="icon">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </span>
+              <input
+                type="date"
+                id="id_date_of_birth"
+                name="date_of_birth"
+                value="{{ form.date_of_birth.value|default:'' }}"
+                {% if form.date_of_birth.errors %}class="error"{% endif %}
+                required
+              />
+            </div>
+            {% if form.date_of_birth.errors %}
+            <ul class="field-errors">{% for e in form.date_of_birth.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="id_gender">Gender <span class="required">*</span></label>
+            <div class="input-wrap">
+              <span class="icon">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M20 21a8 8 0 1 0-16 0"/>
+                </svg>
+              </span>
+              <select id="id_gender" name="gender" {% if form.gender.errors %}class="error"{% endif %} required>
+                <option value="">-- Select Gender --</option>
+                <option value="M" {% if form.gender.value == "M" %}selected{% endif %}>Male</option>
+                <option value="F" {% if form.gender.value == "F" %}selected{% endif %}>Female</option>
+                <option value="O" {% if form.gender.value == "O" %}selected{% endif %}>Other</option>
+                <option value="P" {% if form.gender.value == "P" %}selected{% endif %}>Prefer not to say</option>
+              </select>
+            </div>
+            {% if form.gender.errors %}
+            <ul class="field-errors">{% for e in form.gender.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Country / State -->
+        <div class="field">
+          <label for="id_country_state">Country / State <span class="required">*</span></label>
+          <div class="input-wrap">
+            <span class="icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </span>
+            <select id="id_country_state" name="country_state" {% if form.country_state.errors %}class="error"{% endif %} required>
+              {% for value, label in form.fields.country_state.choices %}
+              <option value="{{ value }}" {% if form.country_state.value == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% if form.country_state.errors %}
+          <ul class="field-errors">{% for e in form.country_state.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+
+        <!-- Terms & Privacy -->
+        <div class="field">
+          <div class="terms-row">
+            <input type="checkbox" id="id_agreed_to_terms" name="agreed_to_terms" {% if form.agreed_to_terms.value %}checked{% endif %} required />
+            <label class="terms-label" for="id_agreed_to_terms">
+              I have read and agree to Homital's
+              <a href="#" id="terms-link">Terms of Service</a> and
+              <a href="#" id="privacy-link">Privacy Policy</a>.
+              By creating an account, I consent to the collection and use of my data as described.
+            </label>
+          </div>
+          {% if form.agreed_to_terms.errors %}
+          <ul class="field-errors">{% for e in form.agreed_to_terms.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submit-btn">
+          Create My Account →
+        </button>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="card-footer">
+      Already have an account? <a href="{% url 'user:login' %}" id="signin-link">Sign in</a>
+    </div>
+  </div>
+
+  <script>
+    // ---- Password strength indicator ----
+    const pwInput  = document.getElementById('id_password');
+    const fill     = document.getElementById('pw-strength-fill');
+    const label    = document.getElementById('pw-strength-label');
+
+    pwInput.addEventListener('input', () => {
+      const val = pwInput.value;
+      let score = 0;
+      if (val.length >= 8)                       score++;
+      if (/[A-Z]/.test(val))                     score++;
+      if (/[a-z]/.test(val))                     score++;
+      if (/\d/.test(val))                        score++;
+      if (/[!@#$%^&*(),.?":{}|<>]/.test(val))   score++;
+
+      const levels = [
+        { pct: '0%',   color: 'transparent', text: '' },
+        { pct: '25%',  color: '#ef4444',     text: 'Weak' },
+        { pct: '50%',  color: '#f97316',     text: 'Fair' },
+        { pct: '75%',  color: '#eab308',     text: 'Good' },
+        { pct: '90%',  color: '#22c55e',     text: 'Strong' },
+        { pct: '100%', color: '#10b981',     text: 'Very Strong' },
+      ];
+
+      const lvl = levels[Math.min(score, 5)];
+      fill.style.width      = lvl.pct;
+      fill.style.background = lvl.color;
+      label.textContent     = lvl.text;
+      label.style.color     = lvl.color;
+    });
+
+    // ---- Toggle password visibility ----
+    document.querySelectorAll('.toggle-pw').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        target.type = target.type === 'password' ? 'text' : 'password';
+      });
+    });
+
+    // ---- Confirm password live match ----
+    const confirmInput = document.getElementById('id_confirm_password');
+    confirmInput.addEventListener('input', () => {
+      if (confirmInput.value && pwInput.value !== confirmInput.value) {
+        confirmInput.style.borderColor = 'var(--clr-error)';
+      } else {
+        confirmInput.style.borderColor = '';
+      }
+    });
+  </script>
+</body>
+</html>
